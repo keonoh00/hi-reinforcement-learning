@@ -82,11 +82,17 @@ class DQNAgent:
         torch.Tensor
             Q values from state.
         """
-        return self.model(
-            np.array(state).reshape(-1, *state.shape) / 255,  # Normalize with 255
-        )[0]
+        try:
+            state = torch.from_numpy(state).float()
+        except:
+            state = torch.from_numpy(np.array(state)).float()
 
-    def train(self, terminal_state, step):
+        state = torch.from_numpy(np.array(state).reshape(-1, *state.shape))
+        state = state.to(self.device)
+
+        return self.model(state)[0]
+
+    def train(self, terminal_state):
         """
         Train the model.
 
@@ -102,21 +108,15 @@ class DQNAgent:
 
         minibatch = self.memory.sample_batch(self.batch_size)
 
-        current_states = (
-            torch.tensor(np.array([transition[0] for transition in minibatch]))
-            / 255  # Normalize with 255
-        )
+        current_states = torch.from_numpy(
+            np.array([transition[0] for transition in minibatch])
+        ).float()
         current_states = current_states.to(self.device)
-
-        # save current_states as text file for debugging
-        # np.savetxt("current_states.txt", current_states)
-
         current_qs_list = self.model(current_states)
 
-        new_current_states = (
-            torch.tensor(np.array([transition[3] for transition in minibatch]))
-            / 255  # Normalize with 255
-        )
+        new_current_states = torch.from_numpy(
+            np.array([transition[3] for transition in minibatch])
+        ).float()
         new_current_states = new_current_states.to(self.device)
         future_qs_list = self.target_model(new_current_states)
 
@@ -144,9 +144,9 @@ class DQNAgent:
 
         self.optimizer.zero_grad()
 
-        X = torch.tensor(np.array(X)) / 255
+        X = torch.tensor(np.array(X)).float()
         X = X.to(self.device)
-        y = torch.tensor(np.array(y))
+        y = torch.tensor(np.array(y)).float()
         y = y.to(self.device)
 
         y_pred = self.model(X)

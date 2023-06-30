@@ -134,10 +134,10 @@ class BlobEnv:
         __init__
         """
 
-        self.observation_space = 2
+        self.SIZE = 10
+        self.observation_space = self.SIZE
         self.action_space = 9
 
-        self.SIZE = 10
         self.RETURN_IMAGES = True
         self.MOVE_PENALTY = 1
         self.ENEMY_PENALTY = 300
@@ -198,7 +198,7 @@ class BlobEnv:
 
         return new_observation, reward, done
 
-    def render(self, display_connected=True):
+    def render(self, display_connected=False):
         img = self.get_image()
         img = img.resize(
             (300, 300)
@@ -210,7 +210,7 @@ class BlobEnv:
         else:
             now = time.time()
             cv2.imwrite(
-                f"blob-{now}.jpg", np.array(img)
+                f"./blob-{now}.jpg", np.array(img)
             )  # to make it actually show up.
 
     # FOR CNN #

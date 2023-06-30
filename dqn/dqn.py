@@ -9,7 +9,7 @@ class DQN(nn.Module):
         self.action_space = action_space
 
         self.model = nn.Sequential(
-            nn.Conv2d(10, 256, kernel_size=1, stride=1),
+            nn.Conv2d(observation_space, 256, kernel_size=1, stride=1),
             nn.ReLU(),
             nn.Conv2d(256, 128, kernel_size=1, stride=1),
             nn.ReLU(),
