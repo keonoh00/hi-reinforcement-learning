@@ -41,5 +41,9 @@ if __name__ == "__main__":
             agent.update_replay_memory((state, action, reward, next_state, done))
             agent.train(done, step=step)
 
+            agent.writer.add_scalar("Reward", reward, global_step=step)
+
             state = next_state
             step += 1
+
+        agent.writer.add_scalar("Episode Reward", episode_reward, global_step=episode)

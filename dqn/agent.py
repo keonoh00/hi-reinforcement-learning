@@ -156,7 +156,5 @@ class DQNAgent:
 
         self.optimizer.step()
 
-        self.writer.add_scalar("Loss", loss, global_step=step)
-
         if terminal_state:
             self.update_target()
