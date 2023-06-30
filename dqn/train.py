@@ -3,7 +3,7 @@ from tqdm import tqdm
 
 import torch
 
-from dqn import DQNAgent
+from agent import DQNAgent
 from env import BlobEnv
 
 if __name__ == "__main__":
