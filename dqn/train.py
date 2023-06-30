@@ -10,15 +10,16 @@ if __name__ == "__main__":
     episodes = 20_000
     learning_rate = 0.001
 
-    env = BlobEnv(area_size=10)
+    env = BlobEnv()
 
     agent = DQNAgent(
         observation_space=env.observation_space,
         action_space=env.action_space,
         lr=learning_rate,
+        device=torch.device("cuda:2"),
     )
 
-    for episode in tqdm(range(episodes), ascii=True, unit="episode"):
+    for episode in tqdm(range(episodes), unit="episodes"):
         writer = agent.writer
 
         episode_reward = 0

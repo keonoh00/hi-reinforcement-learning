@@ -1,12 +1,4 @@
-import time
-import numpy as np
-import random
-
-import torch
-from torch import nn, optim
-from torch.utils.tensorboard import SummaryWriter
-
-from memory import ReplayMemory
+from torch import nn
 
 
 class DQN(nn.Module):
@@ -17,11 +9,16 @@ class DQN(nn.Module):
         self.action_space = action_space
 
         self.model = nn.Sequential(
-            nn.Linear(self.observation_space, 256),
+            nn.Conv2d(10, 256, kernel_size=1, stride=1),
             nn.ReLU(),
-            nn.Linear(256, 256),
+            nn.Conv2d(256, 128, kernel_size=1, stride=1),
             nn.ReLU(),
-            nn.Linear(256, self.action_space),
+            nn.Conv2d(128, 64, kernel_size=1, stride=1),
+            nn.ReLU(),
+            nn.Flatten(),
+            nn.Linear(1920, 64),
+            nn.ReLU(),
+            nn.Linear(64, action_space),
         )
 
     def forward(self, x):
