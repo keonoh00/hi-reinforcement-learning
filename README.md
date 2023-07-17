@@ -1,6 +1,6 @@
-# rl-tutorial
+# hi-reinforcement-learning
 
-Tutorial of Reinforcement Learning using Python, Pytorch, OpenAI Gym, and stable-baselines3.
+Reinforcement Learning Study using Python, Pytorch, OpenAI Gym, and stable-baselines3.
 
 ## Repository Structure
 
